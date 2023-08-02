@@ -5,6 +5,19 @@ struct memReader{
     unsigned char * rootAddressForObj = nullptr;
     std::vector<unsigned char> addrOffsetsForObject;
     // memReader * handleType(){};
+    std::vector <unsigned char> getMemberDataFromIndex(size_t index){
+        std::vector<unsigned char> bytes;
+        size_t offset =0;
+        for(size_t x=0; addrOffsetsForObject[x]!= addrOffsetsForObject[index]; x++){
+            offset +=addrOffsetsForObject[x];
+        }
+        unsigned char * pointer = rootAddressForObj+offset;
+        for (unsigned char byteOffsets = 0; byteOffsets <addrOffsetsForObject[index]; byteOffsets+=sizeof(unsigned char)){
+            bytes.push_back(*(pointer+byteOffsets));
+        }
+
+        return bytes;
+    }
     void * getMemberAddresFromIndex(size_t index){
         size_t offset =0;
         for(size_t x=0; addrOffsetsForObject[x]!= addrOffsetsForObject[index]; x++){
@@ -26,9 +39,13 @@ memReader * _Struct(Args...args){
     return ptr;
 
 };
-
 int main(void){
-    memReader* _struct = _Struct(10, 20);
-    int value = *(int*)_struct->getMemberAddresFromIndex(1);
-    printf("value is = %i", value);
+    memReader* _struct = _Struct(10, 20, (char*)"hello world!\n");
+    auto vec = _struct->getMemberDataFromIndex(2);
+    for(auto byte : vec){
+        printf("byte : %i ",byte);
+    }
+
+
+    // printf("value is = %i", value);
 }
