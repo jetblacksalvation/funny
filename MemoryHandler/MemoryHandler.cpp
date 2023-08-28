@@ -36,23 +36,28 @@ void memReader::_AllocNewMemberArray(size_t byteLength, size_t memberLength){
     unsigned char arrayStartAddressOffset = getClassByteLength();
     //realloc some memory for struct here...
     //
-    std::cout<<"in call\n";
+    // printf("before realloc");
+
+    addrOffsetsForObject.push_back(byteAlloc);
 
     if (std::realloc(this->rootAddressForObj, (arrayStartAddressOffset+byteAlloc))){
+
         for(int x =0; x< memberLength; x++){
             //do while x / sizeof(unsigned char) ?? So unhinnged lol
-            std::cout<<x<<" is x\n";
+            // std::cout<<x<<" is x\n";
             int xtemp = byteLength;
             do {
-                std::cout<<xtemp<<" is x temp\n";
-                rootAddressForObj[(xtemp+arrayStartAddressOffset)+(x*byteAlloc)] = (unsigned char)(0);
+                // std::cout<<xtemp<<" is x temp\n";
+                rootAddressForObj[(xtemp+arrayStartAddressOffset)+(x*byteLength)] = (unsigned char)(0);
             }while((xtemp-=(sizeof(unsigned char))) != 0);
         }
     }
-    else throw std::bad_alloc();
+    else  {
+        throw std::bad_alloc(); 
+    
+    };
     //array address start + it's length = new length... Init to zero?? Maybe implement some sort of hashmap that is used to init objects/primitives...
 
-    addrOffsetsForObject.push_back(byteAlloc);
 
 
 }
