@@ -36,10 +36,17 @@ void memReader::_AllocNewMemberArray(size_t byteLength, size_t memberLength){
     unsigned char arrayStartAddressOffset = getClassByteLength();
     //realloc some memory for struct here...
     //
+    std::cout<<"in call\n";
+
     if (std::realloc(this->rootAddressForObj, (arrayStartAddressOffset+byteAlloc))){
         for(int x =0; x< memberLength; x++){
-            //do while x / sizeof(unsigned char) ??
-            rootAddressForObj[x*byteLength] = 0;
+            //do while x / sizeof(unsigned char) ?? So unhinnged lol
+            std::cout<<x<<" is x\n";
+            int xtemp = byteLength;
+            do {
+                std::cout<<xtemp<<" is x temp\n";
+                rootAddressForObj[(xtemp+arrayStartAddressOffset)+(x*byteAlloc)] = (unsigned char)(0);
+            }while((xtemp-=(sizeof(unsigned char))) != 0);
         }
     }
     else throw std::bad_alloc();
