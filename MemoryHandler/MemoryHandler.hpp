@@ -10,7 +10,7 @@ struct memReader{
     unsigned char * rootAddressForObj = nullptr;
     //this knows how to offset because it iterates through 0 -> target index, counts the offsets of the last ones
     //than it reads member using offsets
-    //....very unhinged and slow lmao, getting a member is log(n) where n is length of members lmaooo
+    //....very unhinged and slow lmao, getting a member is big O of (n) where n is length of members lmaooo
     std::vector<unsigned char> addrOffsetsForObject;
     //address offsets for members, kinda bad variable name but it does work with more complex structs too. Hopefully can work recursively too.
 
