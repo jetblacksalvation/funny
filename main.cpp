@@ -4,6 +4,6 @@
 
 int main(void){
     // std::cout<<"hello \n";
-    memReader* _struct = _Struct(25, "yes!\n");
+    memReader* _struct = _Struct(25, "hello world!\n");
     printf("%s", *(char**)_struct->getMemberAddresFromIndex(1));
 }
